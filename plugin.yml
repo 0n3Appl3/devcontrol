@@ -1,0 +1,13 @@
+main: me.appl3.devcontrol.DevControl
+name: DevControl
+version: '1.0'
+description: Developer Messages and Feedback.
+api-version: '1.16'
+load: POSTWORLD
+author: 0n3Appl3
+website: corruptedfilms.appl3pvp.com
+prefix: DevControl
+commands:
+  feedback:
+    description: Send feedback about the server.
+    usage: /<command> [test|stop]
