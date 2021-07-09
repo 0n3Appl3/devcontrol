@@ -24,7 +24,7 @@ public class DevControl extends JavaPlugin implements Listener {
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			Bukkit.broadcastMessage(formatMessage("&c&m-----------------------------------------------------"));
-			Bukkit.broadcastMessage(formatMessage("&c&lYOU ARE CURRENTLY BETA TESTING VERSION 4.0-b1"));
+			Bukkit.broadcastMessage(formatMessage("&c&lYOU ARE CURRENTLY BETA TESTING VERSION 4.0-b2"));
 			Bukkit.broadcastMessage(formatMessage(""));
 			Bukkit.broadcastMessage(formatMessage("&cBugs and glitches are expected.\nType &7&l/feedback &cto fill in a Google form.\nThank you for helping beta test the new server update!"));
 			Bukkit.broadcastMessage(formatMessage("&c&m-----------------------------------------------------"));
@@ -55,7 +55,7 @@ public class DevControl extends JavaPlugin implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		sendMessage(player, "&c&m-----------------------------------------------------");
-		sendMessage(player, "&c&lYOU ARE CURRENTLY BETA TESTING VERSION 4.0-b1");
+		sendMessage(player, "&c&lYOU ARE CURRENTLY BETA TESTING VERSION 4.0-b2");
 		sendMessage(player, "");
 		sendMessage(player, "&cBugs and glitches are expected.\nType &7&l/feedback &cto fill in a Google form.\nThank you for helping beta test the new server update!");
 		sendMessage(player, "&c&m-----------------------------------------------------");
