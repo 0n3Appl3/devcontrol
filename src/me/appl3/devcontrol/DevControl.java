@@ -10,6 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+
 public class DevControl extends JavaPlugin implements Listener {
 	
 	/*
@@ -17,18 +19,31 @@ public class DevControl extends JavaPlugin implements Listener {
 	 * 
 	 * TODO: Make an announcement clock that repeats a message every 10 minutes.
 	 */
-	
+
+	ArrayList<String> messages = new ArrayList<>();
+
+	int msgIndex = 0;
+	int minuteInternal = 10;
+
 	public void onEnable() {		
 		Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7> &aDevControl has been Enabled!"));
 		Bukkit.getPluginManager().registerEvents(this, this);
-		
+
+		messages.add("&7&oNeed a bit of assistance? Solaris is here to help! Type &f-tutorials &7in the &f#bot-use &7chat on the Discord server to view a list of video tutorials!");
+		messages.add("&7&oWho has the most credits? You can find out by typing &f-top &7in the &f#bot-use &7chat on the Discord server.");
+		messages.add("&7&oWant to help support the server? Visit the store page &fstore.appl3pvp.com &7to learn more.");
+		messages.add("&7&oWant to chat on the go? Join the official Discord server &fdiscord.appl3pvp.com");
+		messages.add("&7&oWant to stay up-to-date on news and updates? Follow us on Twitter at &f@appl3pvp");
+
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			Bukkit.broadcastMessage(formatMessage("&c&m-----------------------------------------------------"));
-			Bukkit.broadcastMessage(formatMessage("&c&lYOU ARE CURRENTLY BETA TESTING VERSION 4.0-b2"));
-			Bukkit.broadcastMessage(formatMessage(""));
-			Bukkit.broadcastMessage(formatMessage("&cBugs and glitches are expected.\nType &7&l/feedback &cto fill in a Google form.\nThank you for helping beta test the new server update!"));
-			Bukkit.broadcastMessage(formatMessage("&c&m-----------------------------------------------------"));
-		}, 0, 12000);
+			Bukkit.broadcastMessage(formatMessage("&7&m-----------------------------------------------------"));
+			Bukkit.broadcastMessage(formatMessage(messages.get(msgIndex)));
+			Bukkit.broadcastMessage(formatMessage("&7&m-----------------------------------------------------"));
+
+			msgIndex++;
+			if (msgIndex == messages.size())
+				msgIndex = 0;
+		}, 0, 20 * (minuteInternal * 60));
 	}
 	
 	@Override
@@ -54,11 +69,10 @@ public class DevControl extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		sendMessage(player, "&c&m-----------------------------------------------------");
-		sendMessage(player, "&c&lYOU ARE CURRENTLY BETA TESTING VERSION 4.0-b2");
-		sendMessage(player, "");
-		sendMessage(player, "&cBugs and glitches are expected.\nType &7&l/feedback &cto fill in a Google form.\nThank you for helping beta test the new server update!");
-		sendMessage(player, "&c&m-----------------------------------------------------");
-		
+
+		if (player.hasPlayedBefore())
+			sendMessage(player, "&7> &c&lWelcome back, " + player.getName() + "!");
+		else
+			sendMessage(player, "&7> &c&lWelcome, " + player.getName() + "!");
 	}
 }
