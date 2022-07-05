@@ -7,4 +7,4 @@ The primary function of DevControl is to provide a simple solution to letting co
 Players are given an option and incentives to report bugs, issues and feedback through an external Google Forms link by typing a command in-game.
 
 ###### Do not copy and distribute this plugin.
-###### Copyright © 2021 Jedd Lupoy (0n3Appl3)
+###### Property of Jedd Lupoy (0n3Appl3)
