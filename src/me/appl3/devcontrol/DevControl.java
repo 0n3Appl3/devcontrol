@@ -29,16 +29,15 @@ public class DevControl extends JavaPlugin implements Listener {
 		Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7> &aDevControl has been Enabled!"));
 		Bukkit.getPluginManager().registerEvents(this, this);
 
-		messages.add("&7&oNeed a bit of assistance? Solaris is here to help! Type &f-tutorials &7in the &f#bot-use &7chat on the Discord server to view a list of video tutorials!");
-		messages.add("&7&oWho has the most credits? You can find out by typing &f-top &7in the &f#bot-use &7chat on the Discord server.");
-		messages.add("&7&oWant to help support the server? Visit the store page &fstore.appl3pvp.com &7to learn more.");
-		messages.add("&7&oWant to chat on the go? Join the official Discord server &fdiscord.appl3pvp.com");
-		messages.add("&7&oWant to stay up-to-date on news and updates? Follow us on Twitter at &f@appl3pvp");
+		messages.add("&fNeed a bit of assistance? Visit the guides page &bnoxite.co.nz/guides &fto learn more.");
+		messages.add("&fWant to chat on the go? Join the official Discord server &bdiscord.noxite.co.nz");
+		messages.add("&fWant to stay up-to-date on news and updates? Follow us on Twitter at &b@noxite_nz");
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			Bukkit.broadcastMessage(formatMessage("&7&m-----------------------------------------------------"));
-			Bukkit.broadcastMessage(formatMessage(messages.get(msgIndex)));
-			Bukkit.broadcastMessage(formatMessage("&7&m-----------------------------------------------------"));
+			//Bukkit.broadcastMessage(formatMessage("&7&m-----------------------------------------------------"));
+			//Bukkit.broadcastMessage((formatMessage(" \n&c|||||||||| &c&lCURRENTLY BETA TESTING VERSION 4.1-B1. &c||||||||||\n")));
+			Bukkit.broadcastMessage(formatMessage("\n&c&l(!) " + messages.get(msgIndex) + "\n "));
+			//Bukkit.broadcastMessage(formatMessage("&7&m-----------------------------------------------------"));
 
 			msgIndex++;
 			if (msgIndex == messages.size())
@@ -51,9 +50,9 @@ public class DevControl extends JavaPlugin implements Listener {
 		Player player = (Player) sender;
 		String label = cmd.getLabel();
 		
-		if (label.equalsIgnoreCase("feedback")) {
-			sendMessage(player, "&f&lSend your feedback here&7:\n&6&nhttps://forms.gle/cWwuQPHiYRQ8wjAm9");
-		}
+//		if (label.equalsIgnoreCase("feedback")) {
+//			sendMessage(player, "&f&lSend your feedback here&7:\n&6&nhttps://forms.gle/cWwuQPHiYRQ8wjAm9");
+//		}
 		return true;
 	}
 	

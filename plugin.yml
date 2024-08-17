@@ -5,7 +5,7 @@ description: Developer Messages and Feedback.
 api-version: '1.16'
 load: POSTWORLD
 author: 0n3Appl3
-website: corruptedfilms.appl3pvp.com
+website: jeddlupoy.com
 prefix: DevControl
 commands:
   feedback:
