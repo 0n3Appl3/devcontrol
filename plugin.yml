@@ -7,7 +7,3 @@ load: POSTWORLD
 author: 0n3Appl3
 website: jeddlupoy.com
 prefix: DevControl
-commands:
-  feedback:
-    description: Send feedback about the server.
-    usage: /<command> [test|stop]
