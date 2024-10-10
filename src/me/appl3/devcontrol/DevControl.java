@@ -32,6 +32,7 @@ public class DevControl extends JavaPlugin implements Listener {
 		messages.add("&fNeed a bit of assistance? Visit the guides page &bnoxite.co.nz/guides &fto learn more.");
 		messages.add("&fWant to chat on the go? Join the official Discord server &bdiscord.noxite.co.nz");
 		messages.add("&fWant to stay up-to-date on news and updates? Follow us on Twitter at &b@noxite_nz");
+		messages.add("&fWant to support the server in style? Visit the store page &bstore.noxite.co.nz &fto learn more.");
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			//Bukkit.broadcastMessage(formatMessage("&7&m-----------------------------------------------------"));
