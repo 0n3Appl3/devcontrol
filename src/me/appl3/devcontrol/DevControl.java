@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,44 +17,39 @@ public class DevControl extends JavaPlugin implements Listener {
 	
 	/*
 	 * Made by Jedd Lupoy (0n3Appl3)
-	 * 
-	 * TODO: Make an announcement clock that repeats a message every 10 minutes.
 	 */
 
-	ArrayList<String> messages = new ArrayList<>();
+	private ConfigManager config;
+	private ArrayList<String> messages = new ArrayList<>();
 
 	int msgIndex = 0;
-	int minuteInternal = 10;
+	int announcementTask = 0;
+	String announcementPrefix = "";
+	long announcementInterval = 0;
 
-	public void onEnable() {		
+	public void onEnable() {
+		loadConfigManager();
+		applyConfigChanges();
+
 		Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7> &aDevControl has been Enabled!"));
 		Bukkit.getPluginManager().registerEvents(this, this);
-
-		messages.add("&fNeed a bit of assistance? Visit the guides page &bnoxite.co.nz/guides &fto learn more.");
-		messages.add("&fWant to chat on the go? Join the official Discord server &bdiscord.noxite.co.nz");
-		messages.add("&fWant to stay up-to-date on news and updates? Follow us on Twitter at &b@noxite_nz");
-		messages.add("&fWant to support the server in style? Visit the store page &bstore.noxite.co.nz &fto learn more.");
-
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			//Bukkit.broadcastMessage(formatMessage("&7&m-----------------------------------------------------"));
-			//Bukkit.broadcastMessage((formatMessage(" \n&c|||||||||| &c&lCURRENTLY BETA TESTING VERSION 4.1-B1. &c||||||||||\n")));
-			Bukkit.broadcastMessage(formatMessage("\n&c&l(!) " + messages.get(msgIndex) + "\n "));
-			//Bukkit.broadcastMessage(formatMessage("&7&m-----------------------------------------------------"));
-
-			msgIndex++;
-			if (msgIndex == messages.size())
-				msgIndex = 0;
-		}, 0, 20 * (minuteInternal * 60));
 	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String exactLabel, String[] args) {
-		Player player = (Player) sender;
 		String label = cmd.getLabel();
-		
-//		if (label.equalsIgnoreCase("feedback")) {
-//			sendMessage(player, "&f&lSend your feedback here&7:\n&6&nhttps://forms.gle/cWwuQPHiYRQ8wjAm9");
-//		}
+
+		if (label.equalsIgnoreCase("devreload")) {
+			if (!(sender instanceof ConsoleCommandSender)) {
+				Player player = (Player) sender;
+				if (!player.hasPermission("appl3.devreload")) {
+					sendMessage(player, "&cYou do not have permission to use this!");
+					return true;
+				}
+			}
+			config.reloadConfig();
+			applyConfigChanges();
+		}
 		return true;
 	}
 	
@@ -65,14 +61,40 @@ public class DevControl extends JavaPlugin implements Listener {
 	public String formatMessage(String message) {
 		return ChatColor.translateAlternateColorCodes('&', message);
 	}
+
+	public void loadConfigManager() {
+		config = new ConfigManager();
+		config.setup();
+		config.reloadConfig();
+	}
+
+	public void applyConfigChanges() {
+		announcementPrefix = config.getAnnouncementPrefix();
+		announcementInterval = config.getAnnouncementInterval();
+		messages = config.getAnnouncementMessages();
+		msgIndex = 0;
+
+		Bukkit.getServer().getScheduler().cancelTask(announcementTask);
+		startAnnouncementTask();
+	}
+
+	public void startAnnouncementTask() {
+		announcementTask = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			Bukkit.broadcastMessage(formatMessage("\n" + announcementPrefix + " " + messages.get(msgIndex) + "\n "));
+
+			msgIndex++;
+			if (msgIndex == messages.size())
+				msgIndex = 0;
+		}, 0, 20 * (announcementInterval * 60L));
+	}
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 
 		if (player.hasPlayedBefore())
-			sendMessage(player, "&7> &c&lWelcome back, " + player.getName() + "!");
+			sendMessage(player, config.getWelcomeBackMessage(player.getName()));
 		else
-			sendMessage(player, "&7> &c&lWelcome, " + player.getName() + "!");
+			sendMessage(player, config.getWelcomeMessage(player.getName()));
 	}
 }

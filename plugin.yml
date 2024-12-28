@@ -7,3 +7,8 @@ load: POSTWORLD
 author: 0n3Appl3
 website: jeddlupoy.com
 prefix: DevControl
+commands:
+  devreload:
+    description: Reloads the plugin configuration.
+    permission: appl3.devreload
+    usage: /<command> [test|stop]
